@@ -1,24 +1,22 @@
 pipeline {
     agent any
-environment {
-        IMAGE_NAME = "kjrashmi20/ecom-web"
+
+    environment {
+        IMAGE_NAME = "yourdockerhubuser/employee-portal"
         IMAGE_TAG  = "latest"
     }
-stages {
-stage('Checkout Code') {
-            steps {
-                git credentialsId: 'github-creds',
-                    url: 'https://github.com/kjrashmi20/Employee-Portal-with-Automated-DevOps-Delivery-Pipeline.git'
-            }
-        }
-stage('Build Docker Image') {
+
+    stages {
+
+        stage('Build Docker Image') {
             steps {
                 sh '''
-                docker build -t $IMAGE_NAME:$IMAGE_TAG .
+                  docker build -t $IMAGE_NAME:$IMAGE_TAG .
                 '''
             }
         }
-stage('Docker Login') {
+
+        stage('Docker Login') {
             steps {
                 withCredentials([usernamePassword(
                     credentialsId: 'dockerhub-creds',
@@ -29,15 +27,17 @@ stage('Docker Login') {
                 }
             }
         }
-stage('Push Docker Image') {
+
+        stage('Push Docker Image') {
             steps {
                 sh '''
-                docker push $IMAGE_NAME:$IMAGE_TAG
+                  docker push $IMAGE_NAME:$IMAGE_TAG
                 '''
             }
         }
     }
-post {
+
+    post {
         success {
             echo "Docker image pushed successfully"
         }
