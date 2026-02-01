@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "yourdockerhubuser/employee-portal"
+        IMAGE_NAME = "kjrashmi20/ecom-web"
         IMAGE_TAG  = "latest"
     }
 
